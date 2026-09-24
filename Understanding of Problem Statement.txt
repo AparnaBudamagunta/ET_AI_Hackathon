@@ -1,0 +1,443 @@
+Retail – Autonomous Promotion Planner:
+Firstly, it's a planner
+It should be autonomous
+
+Promotions - used to sell their products by retail companies
+For doing a promotion we need a strategy before planning the promotion
+
+In general, on a high level every successful promotion strategy involves
+1. complex optimization
+2. coordination
+3. product and market understanding
+4. subjective judgements
+All these are needed while teams meet commercial objectives and operational constraints
+
+What needs to be developed as part of Hackathon?
+Agentic planner
+1. It should be capable of extracting or inferring with high degree of confidence
+2. consider all relevant input parameters
+3. make decisions on key dimensions of promotion strategy --> This means first user should know the reason for promotion they are 
+planning, which lens are they considering doing the promotion etc.
+4. This planner should also adjust to dynamic requirements as it builds the strategy and satisfy all relevant constraints imposed
+by the parent company --> This means, a strategy is being developed and meanwhile some constraints like weather etc., pop up then the 
+strategy should be adjusted accordingly.
+
+Inputs to the solution:
+1. Inventory - What is the inventory we have, we plan to have, we need to have etc.,
+2. Competitor prices - who are our competitors in the market, what are their prices etc.,
+3. Holidays - Are we doing promotions during holiday season or non-holiday season, if holidays which, when, how etc.,
+4. Margins - What are our margins for this promotion, profit or loss, are we selling for lower prices than COGS, are we putting more
+money into the promotion etc.,
+5. Customer segments - Which customers are we focusing on, which channels are we using etc.,
+
+Once these inputs are considered the planner should decide (Outputs of the solution)
+1. Which products to promote
+2. Discount amount
+3. Duration
+4. Target audience
+
+The outputs must satisfy constraints
+1. Minimum margin
+2. Inventory clearance
+3. Marketing budget
+
+Feature required in the solution
+1. Select which products to promote - 
+      Here we decide what to promote
+      Promotion should happen on right products for right reason.
+
+      In general, there are 4 reasons to promote the product
+      a) Traffic drivers - They bring customers IN
+            These are products people already want and know the price of. 
+            Discounting them bring people through the door
+            Example: Walmart promotes milk, eggs, or Coca-Cola at a low price. 
+            You come in for the deal — and leave with 10 other things.
+
+            Key trait: High purchase frequency, widely known, price-sensitive customers.
+
+      b) Margin Builders — Make money while you're at it
+            These are products promoted alongside with traffic drivers
+            These also have high profit margins
+            In a nutshell, we are hiding profits in the basket
+            Example: A supermarket promotes cheap bread but places full-price butter and jam right next to it. You buy all three.
+
+      c) Inventory Clearers — Get rid of dead stock
+            These are in general those products that are overstocked, seasonal or near expiry.
+            Promoting these is needed because it gives company the cash and also frees shelf space.
+            Example: Zara discounts winter coats in February to clear them before spring stock arrives.
+
+      d) New Product Launchers — Build awareness fast
+            New products need trial
+            In general, people will not be willing to buy something that is never known or un-used. Promotions help them to try or buy
+            at low cost or buy on offer or something
+            Example: Lay's offers a "Buy 1 Get 1 Free" on a new flavor to get people to try it without hesitation.
+
+      While selecting the product, we ask certain questions and there are certain reasons behind asking those questions as well
+      Question asked - What we are trying to check
+      a) Does it drive footfall? - Will people come to the store FOR this product
+      b) Does it have acceptable margin? - Can we afford to discount it?
+      c) Is demand elastic? - Will the price drop actually increase sales volume?
+      d) Is it strategically timed? - Is it the right season/moment for this product?
+
+      In general, we can see as below
+      High demand + Price sensitive → ✅ Promote (Traffic Driver)
+      High margin + Bought alongside others → ✅ Promote (Margin Builder)
+      Slow moving / overstocked → ✅ Promote (Clearance)
+      New to market → ✅ Promote (Launch Push)
+      Low demand + Low margin + No strategic value → ❌ Don't Promote
+
+      Goal of selecting products to promote - Don't promote what's easiest — promote what's most strategic. 
+      Every promoted product should either bring customers in, make you money, clear space, or build future demand.
+
+2. Determine the promotion mechanism
+      Here we decide how to promote
+      Promotion mechanism is the actual tool/offer you use to change customer behavior
+
+      In general, there are 6 promotions mechanisms
+      a) Price Discounts - Pay less - Here we simply reduce the price.
+          There are different types in price discounts
+              i) Flat discount - ₹200 off on this jacket
+              ii) Percentage off - 30% off on all shoes
+              iii) Slashed MRP - Show old price struck through, new price bold
+
+          Example: Flipkart's Big Billion Days — products shown with original vs. sale price creates urgency and perceived value.
+          Best for: Traffic drivers, clearance, price-sensitive customers.
+
+      b) Bundle Offers — "Buy More, Save More" - Combine multiple products together at a better price than buying individually
+          There are different types in bundle offers
+              i) Pure bundle - Shampoo + Conditioner packed together
+              ii) Mix & match - Buy any 3 for ₹999
+              iii) Cross-category bundle - Toothbrush + Toothpaste combo
+
+          Example: McDonald's Happy Meal — burger + fries + drink bundled. You spend more than you planned, but feel you got a deal.
+          Best for: Increasing basket size, launching new products alongside established ones.
+
+      c) Buy X Get Y (BXGY) — "Reward the Purchase" - Customer buys something and gets a reward attached to it.
+          There are different types in BXGY offers
+              i) Buy 1 Get 1 - Free	Classic BOGOF
+              ii) Buy 2 Get 1 - Free	Encourages stocking up
+              iii) Buy X Get Y - free	Buy a pizza, get a drink free
+
+          Example: Domino's "Buy 1 Get 1 Free" on Tuesdays — drives sales on a slow day, builds habit.
+          Best for: High-margin products (you can afford to give one free), new product trials, clearing stock fast.
+
+      d) Coupons & Vouchers — "Earn the Deal" - Customer gets a discount only if they have a coupon — adds exclusivity 
+          and tracks effectiveness.
+          There are different types in Coupons and Vouchers
+              i) Paper coupon - Newspaper insert with ₹50 off
+              ii) Digital coupon - App-based code "SAVE20"
+              iii) Loyalty coupon - Your next purchase gets 15% off
+
+          Example: Myntra's app-exclusive coupons — forces customers onto the app, builds digital habit, tracks behavior.
+          Best for: Targeted promotions, loyal customers, tracking ROI precisely.
+
+      e) Loyalty & Points Programs — "Keep Coming Back" - Customers earn points/rewards over time, encouraging repeat purchases. 
+          There are different types in Loyalty & Points Programs
+              i) Points per purchase - 1 point per ₹10 spent
+              ii) Tiered rewards - Silver → Gold → Platinum benefits
+              iii) Cashback - 5% back on every purchase
+
+          Example: Starbucks Rewards — every coffee earns stars. Stars unlock free drinks. 
+          You keep coming back just to "not waste" your stars. This is psychological lock-in.
+
+          Best for: Long-term retention, increasing purchase frequency, building emotional connection.
+
+      f) Limited Time Offers (LTO) — "Act Now or Miss Out" - Scarcity and urgency are powerful psychological triggers.
+          There are different types in LTOs
+              i) Flash sale - 50% off — next 2 hours only!
+              ii) Daily deals - Deal of the Day
+              iii) Seasonal sale - End of season, festive offers
+
+          Example: Nykaa's "Flash Sale" with a countdown timer — the ticking clock makes customers decide fast, reducing overthinking.
+
+          Best for: Clearing stock quickly, generating buzz, reactivating dormant customers.
+
+          Decision Matrix in general for choosing the right mechanism
+
+            Goal                        →    Best Mechanism
+            ─────────────────────────────────────────────────
+            Bring new customers in      →    Price Discount / LTO
+            Increase basket size        →    Bundle / BXGY
+            Retain existing customers   →    Loyalty Programs
+            Launch a new product        →    BXGY / Coupon (trial)
+            Clear old inventory fast    →    Flat Discount / Flash Sale
+            Track promo effectiveness   →    Coupons / Digital Codes
+
+          The best rule in deciding the mechanism is to match the mechanism to the customer barrier
+            Price too high? → Discount
+            Won't try it? → BXGY / Free trial
+            Buys once, never returns? → Loyalty program
+            Needs urgency? → LTO
+
+3. Optimize the discount and customize other strategies
+        Any amount of discount can be given to any customers but then it would hurt the profits of the company. Hence giving the minimum 
+        discount needed to trigger the desired behavior, while customizing strategies for different customers is really important.
+
+        a) Optimizing the Discount
+              i) Price Elasticity Test - tells you how sensitive your customers are to price changes.
+                Elasticity = % Change in Demand / % Change in Price
+                Elasticity Type --- Meaning --- Discount Strategy
+                High elasticity --> Small discount = big sales jump --> Even 10% works well
+                Low elasticity --> Even big discounts --> don't move much	Don't over-discount — try other mechanisms
+
+                Example: A ₹500 commodity shampoo is highly elastic — drop it to ₹450 and sales spike. 
+                But a ₹5,000 premium face cream is inelastic — a 10% discount won't move loyal buyers much. 
+                A gift-with-purchase works better there.
+
+              ii) The Discount Ladder - Don't start at your maximum discount. Test incrementally.
+                  Step 1 → 10% off         (Does it move?)
+                  Step 2 → 15% off         (Does it move more?)
+                  Step 3 → 20% off         (Sweet spot found?)
+                  Step 4 → 25% off         (Margins hurting now — stop here)
+
+                Example: Amazon tests different discount levels across user segments on the same product during Prime Day 
+                to find the "minimum effective discount."
+
+              iii) Protect Margin With Thresholds - Instead of discounting the product, set a spending threshold to unlock the deal.
+                  ❌ "20% off everything"
+                  ✅ "Spend ₹1,500 and get 20% off"
+
+                This forces customers to add more to their basket before getting the reward — you give a discount but recover it 
+                through higher volume.
+
+                Example: Myntra's "Spend ₹2,000, get ₹300 off" — customers who had ₹1,700 in cart actively add more items just to 
+                unlock the discount.
+
+              iv) Perceived Value vs. Actual Discount - Sometimes how you show the discount matters more than the discount itself.
+                  Framing (show off) matters                  
+                  Same Discount --- Framing A --- Framing B
+                  ₹200 off a ₹1,000 product --> "20% off"	or "Save ₹200"
+                  ₹2,000 off a ₹20,000 product --> "Save ₹2,000" or "10% off"
+
+                  Rule: For cheap products → show % off (looks bigger). 
+                  For expensive products → show ₹ amount saved (feels more tangible).
+
+        b) Customizing Strategies by Customer Segment - One promotion does NOT fit all. Great retailers customize based on who the customer is.
+            The 4 Key Customer Segments
+                    HIGH VALUE          LOW VALUE
+                   ┌─────────────┬──────────────────┐
+            LOYAL  │  VIPs 👑    │  Habitual 🔄    │
+                   ├─────────────┼──────────────────┤
+            AT     │  Win-back 🎯│  Let go / nudge  │
+            RISK   │             │  💤              │
+                   └─────────────┴──────────────────┘
+
+              i) VIP / High Value Loyal Customers
+                  Who: Buy frequently, spend a lot, love your brand.
+                  Goal: Retain them, make them feel special, increase spend further.
+                  
+                  Strategies:                  
+                    Early access to sales before general public
+                    Exclusive members-only pricing
+                    Surprise & delight gifts (no discount needed)
+                    Personalized recommendations
+
+                Example: Sephora's "Beauty Insider" top tier gets early access to holiday sales — 
+                they feel privileged, not discounted. No deep discount needed.
+
+              ii) Habitual / Low Value Loyal Customers
+                  Who: Buy regularly but small basket sizes.
+                  Goal: Increase basket size per visit.
+                  
+                  Strategies:                  
+                    Bundle offers (nudge them to buy more)
+                    "Complete the look" / cross-sell promotions
+                    Spend threshold discounts ("just ₹300 more for free shipping")
+
+                Example: A grocery store customer who only buys staples — 
+                a "Buy rice + dal + oil together, save ₹80" bundle nudges them to consolidate their shopping with you.
+
+              iii) High Value At-Risk Customers
+                  Who: Used to spend a lot, but haven't purchased recently.
+                  Goal: Win them back — they're worth the investment.
+                  
+                  Strategies:                  
+                    Personalized "We miss you" offer with meaningful discount
+                    Exclusive reactivation coupon
+                    Show them what's new since they last visited
+
+                Example: Nykaa sends "It's been a while! Here's ₹500 off your next order" to lapsed high-value customers — 
+                the ₹500 investment to reactivate a ₹5,000 spender is very worth it.
+
+              iv) Low Value At-Risk / Dormant
+                  Who: Bought once or twice, low spend, now inactive.
+                  Goal: Either re-engage cheaply OR don't over-invest.
+                  
+                  Strategies:                  
+                    Low-cost nudge (app notification, small offer)
+                    If no response after 2-3 attempts → stop spending on them
+                    Use them to test new promotions (low risk)
+
+                Example: A D2C brand sends a simple "Here's 10% off — last chance" email. 
+                No response? They exit the active promotion list. Smart budget allocation.
+
+        c) Customizing by Purchase Stage - Different customers are at different stages of their journey with you.
+            AWARENESS → FIRST PURCHASE → REPEAT → LOYAL → ADVOCATE
+
+            Stage --- Promotion Strategy
+            Awareness --- Free sample, referral offer, social media promo
+            First Purchase --- Welcome discount "First order 15% off"
+            Repeat --- Loyalty points kick in, bundle offers
+            Loyal --- Exclusive access, personalized deals
+            Advocate --- Referral rewards ("Refer a friend, both get ₹200")
+
+            Example: Zepto's journey — new user gets ₹150 off first order → earns cashback on repeat orders → 
+            gets early access to flash sales as a loyal user. Each stage has its own hook.
+
+        d) Time-Based Customization - When you promote is as important as how you promote.
+              Timing --- Strategy
+              Slow days (Mon-Tue) --- "Tuesday Special" — drive traffic on weak days
+              Peak season --- Reduce discounts — demand is already high
+              End of season --- Deep clearance discounts
+              Customer birthday/anniversary --- Personalized surprise offer
+              Post-purchase --- "Buy again" reminder at the right reorder moment
+
+            Example: Domino's "Tuesday BOGO" and Swiggy's "Late Night" offers — 
+            both solve the problem of low demand at specific times, not random discounting.
+
+      OPTIMIZE DISCOUNT          CUSTOMIZE STRATEGY
+      ──────────────────         ──────────────────
+      Test elasticity            Segment your customers
+      Use discount ladder        Match offer to segment goal
+      Set spend thresholds       Personalize by journey stage
+      Frame it smartly           Time it to behavior patterns
+      Protect your margin        Don't over-invest in low-value segments
+
+4. Understand cannibalization
+      One of the most underestimated risks in promotion strategy.
+
+      What is Cannibalization?
+      Cannibalization happens when the sales boost of a promoted product comes at the expense of another product you already sell — 
+      eating into your own revenue.
+
+      Analogy
+        Imagine you run a pizza shop selling:
+        Regular Pizza at ₹300
+        Premium Pizza at ₹500
+        
+        You promote Regular Pizza at ₹200. Sales of Regular Pizza double.
+        But Premium Pizza sales drop by 60%.
+        
+        You didn't gain new customers — your own Premium Pizza customers just switched down.
+        Your promotion ate itself.
+
+      In general, there are 3 types of cannibalization
+      a) Product Cannibalization - A promoted product steals sales from a similar product in your own range.
+
+          Your Product A (Promoted) 📈  →  Your Product B (Similar) 📉
+
+          Example: When Lay's promotes its Classic salted chips heavily, sales of its own Magic Masala variant drop — 
+          same company, same shelf, customers just switch flavors.
+
+      b) Stockpiling Cannibalization - Customers buy in bulk during a promotion — and then don't buy for a long time after.
+        You borrowed future sales, not created new ones.
+
+          Promotion Week → Sales Spike 📈
+          Week After → Sales Crash 📉 (customers already stocked up)
+
+          Example: HUL promotes Surf Excel detergent at "Buy 2 get 1 free." Loyal customers buy 6 months worth. 
+          For the next 5 months — zero sales from those customers. The promotion cannibalized its own future demand.
+
+      c) Margin Cannibalization - Customers who would have bought at full price now wait for promotions — 
+          destroying your margin without adding new volume.
+
+          Before Promotion Era:  Customer buys at ₹1,000  ✅
+          After Regular Promos:  Same customer waits for ₹700 sale 😬
+
+          Example: Furniture retailers like @Home or retailers running "End of Season Sales" every 3 months — 
+          customers learn the pattern and refuse to buy at full price. The promotion trained them to wait.
+
+      How to Measure Cannibalization?
+
+                                  Lost Sales of Other Products
+        Cannibalization Rate =   ─────────────────────────────  × 100
+                                  Gained Sales of Promoted Product
+
+        Example:
+        
+        Promoted Product A gains: 1,000 units
+        Product B lost: 400 units (customers switched)
+        Cannibalization Rate = 400/1000 × 100 = 40%
+        
+        This means 40% of your "new" sales weren't new at all — they came from your own pocket.
+
+    The Real Metric - Don't just measure promoted product sales. Measure total category sales.
+    ❌ Wrong Question:  "Did Product A sales go up?"
+    ✅ Right Question:  "Did TOTAL sales go up?"
+
+    Why Cannibalization Happens? — Root Causes
+      1. Products too similar         →  Customers easily substitute
+      2. Promotions too frequent      →  Customers learn to wait
+      3. No customer segmentation     →  Loyal buyers get discount they didn't need
+      4. Poor shelf placement         →  Promoted item placed next to its own substitute
+      5. Deep discounts on premium    →  Premium buyers trade down permanently
+
+    How to Minimize Cannibalization?
+      1) Promote Complementary, Not Competing Products - Promote products that are bought together, not instead of each other.
+          ✅ Promote shampoo → place conditioner next to it (complementary)
+          ❌ Promote shampoo A → placed next to shampoo B (competing)
+
+      2) Target New or Lapsed Customers Only - Use coupons and personalized offers so the discount only reaches people who 
+          wouldn't have bought anyway.
+
+          Example: Zomato sends a discount only to users who haven't ordered in 30 days — 
+          existing active users pay full price. Zero cannibalization of existing revenue.
+
+      3) Differentiate the Promoted Product Clearly - Make sure customers understand WHY the promoted product is different — 
+          so they don't just trade down from your premium product.
+
+          Example: McDonald's promotes its McSaver meals as a separate value range — 
+          not a discounted version of its regular menu. Clear positioning prevents premium buyers from switching.
+
+      4) Limit Promotion Frequency - If you promote too often, customers stop buying at full price entirely.
+
+          Rule of Thumb:
+          ──────────────────────────────────────────────────────────────────────────────────────────
+          Promotions more than once a month on the same product = You're training customers to never pay full price again.
+
+          Example: Apple almost never discounts — scarcity of promotions makes full-price buying the norm. 
+          Contrast with a brand that's "always on sale" — no one trusts their original price anymore.
+
+      5) Use Non-Price Promotions to Avoid Margin Cannibalization - Instead of cutting price, add value — 
+        so you don't train customers to expect lower prices.
+
+          ❌ "20% off our premium moisturizer"     (damages price perception)
+          ✅ "Free travel kit with our moisturizer" (adds value, protects price)
+
+          Example: Clinique offers a "free gift with purchase" during promotions — customers feel rewarded but the base price is 
+          never touched. Full-price buying habit stays intact.
+
+      The Cannibalization Risk Map
+                    HIGH SIMILARITY TO OTHER PRODUCTS
+                                        │
+                        HIGH RISK 🔴    │    HIGH RISK 🔴
+                        (Switch + trade │    (Direct substitute)
+                         down likely)   │
+           LOW ──────────────────────────────────────────── HIGH
+           MARGIN                       │                  MARGIN
+                        LOW RISK 🟢     │    MEDIUM RISK 🟡
+                        (Not worth      │    (Profitable even
+                         promoting)     │     if some switching)
+                                        │
+                              LOW SIMILARITY TO OTHER PRODUCTS
+
+      Safest products to promote: High margin + Low similarity to other products you sell.
+
+      Cannibalization Checklist Before Any Promotion:
+      ─────────────────────────────────────────────────
+      ☐ Will this steal sales from my own other products?
+      ☐ Will loyal customers stockpile and go quiet after?
+      ☐ Am I training customers to wait for discounts?
+      ☐ Is the incremental gain worth the cannibalization loss?
+      ☐ Can I target only non-buyers to avoid self-cannibalization?
+
+    A promotion that grows the total pie is a success. A promotion that just moves pie from one of your plates to another — 
+    is just expensive shuffling.
+
+5. Understand product relationships
+6. Consider inventory constraints
+7. Geographically customize promotions
+8. Competitor awareness
+9. Simulate the promotion before launching
+
+
