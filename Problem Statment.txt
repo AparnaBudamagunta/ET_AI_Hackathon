@@ -1,0 +1,56 @@
+Retail – Autonomous Promotion Planner: 
+
+  Retail promotions are a key tool for all retail companies to sell their products. 
+  However, successful promotion strategies require complex optimization, 
+  coordination, product and market understanding, and subjective judgments. 
+  Teams must account for these factors while balancing commercial objectives 
+  and operational constraints.
+
+  Develop an agentic planner capable of extracting, or inferring with a high 
+  degree of confidence, all relevant input parameters and making decisions on 
+  the key dimensions of the promo strategy. The planner should adjust to 
+  dynamic requirements as it builds the strategy and satisfy all necessary and 
+  relevant constraints imposed by the parent company.
+
+Inputs to the solution:
+The AI agent receives the following inputs:
+  1. Inventory
+  2. Competitor prices
+  3. Holidays
+  4. Margins
+  5. Customer segments
+
+Using these inputs, it decides:
+  1. Which products to promote
+  2. Discount amount
+  3. Duration
+  4. Target audience
+
+These decisions must satisfy constraints such as:
+  1. Minimum margin
+  2. Inventory clearance
+  3. Marketing budget
+
+The following would be the core desirable features in the solution:
+  1. Select which products to promote
+  2. Determine the promotion mechanism
+  3. Optimize the discount and customize other strategies
+  4. Understand cannibalization
+  5. Understand product relationships
+  6. Consider inventory constraints
+  7. Geographically customize promotions
+  8. Competitor awareness
+  9. Simulate the promotion before launching
+
+Solution depth requirements:
+  D1: Mostly structured and textual data as input. Should generate acceptable 
+  outputs in a majority of situations.
+  D2: Mostly structured and textual data as input. High degree of 
+  demonstrable reliability.
+  D3: Highly heterogeneous multimodal input. High degree of demonstrable 
+  reliability.
+
+Solution feature requirements:
+  F1: Covers at least 2 of the features from the feature list
+  F2: Covers at least 5 of the features from the feature list
+  F3: Covers at least 7 of the features from the feature list.
