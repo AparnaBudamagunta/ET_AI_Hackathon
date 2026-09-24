@@ -1,0 +1,44 @@
+There are 2 dimensions for problem solutioning
+1. solution depth
+2. solution features
+
+solution depth = level of input uncertainty or lack structure that solution can handle + 
+                degree of reliability the generated output can exhibit
+solution features = number of relevant, meaningful/significant and distinct features in solution +
+                    extent of supporting features embedded in the solution
+
+solution depth on Y axis - D1, D2, D3
+solution features on X axis - F1, F2, F3
+
+Solution should be marked in this grid. If marked incorrectly as compared to solution given, it's a penalty. Working demo and detailed
+structural architecture provided should be in sync with the position given on the grid.
+
+Evaluation framework and approach:
+1. Significance and relevance: 
+  Is the solution meaningful? 
+  Does it address a genuine business/user need connected to the core problem?
+2. Innovation & Originality: 
+  How novel is the idea? 
+  Is there a genuinely creative approach rather than a conventional application of existing tools?
+3.  Effective Use of AI: 
+  Is AI central to the solution, or merely bolted on? 
+  Does the team exploit LLMs, agents, computer vision, ML, GenAI, etc. appropriately?
+4. Technical Complexity & Execution: 
+  Quality of architecture, algorithms, AI pipelines, integrations, data handling, engineering, and implementation.
+5. Agentic / Autonomous Capability: 
+  Where relevant, does the system reason, plan, use tools, take actions, recover from errors, and operate with appropriate autonomy?
+6.  Business/User Impact: 
+  Potential for measurable improvement: revenue, cost reduction, productivity, customer experience, risk reduction, sustainability, etc
+7.  Prototype Quality & Usability: 
+  Does the prototype actually work? 
+  Is it intuitive and demonstrable?
+8.  Scalability, Responsible AI & Robustness: 
+  Can it scale? 
+  Does it address hallucination, security, privacy, bias, reliability, and human oversight appropriately?
+
+Expectations from final submission
+It should have 2 components
+1. A working demo - should show depth and features claimed.
+2. Detailed structural architecture - should contain breakdown of process flow, key actions, decisions, model usage, and key features.
+
+structural architecture and demo should be insync
