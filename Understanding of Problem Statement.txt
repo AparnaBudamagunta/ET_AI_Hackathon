@@ -435,6 +435,79 @@ Feature required in the solution
     is just expensive shuffling.
 
 5. Understand product relationships
+      What Are Product Relationships?      
+      Product relationships describe how the sale of one product influences the sale of another — positively or negatively.
+
+      Entire product catalog as a web, not a list. Every product is connected to others in some way. Smart promotions exploit these         connections.
+
+      There are 4 core product-relationships
+      a) Complementary Products — "Goes With" - Products that are naturally used together. When one sells, the other should too.
+            
+            Examples:            
+            Toothbrush → Toothpaste
+            Printer → Ink Cartridge
+            Bread → Butter & Jam
+            Running Shoes → Sports Socks
+            Phone → Phone Case + Screen Guard
+
+            Promotion Strategy: Bundle them, place them together, or offer a discount on B when A is bought.
+
+            Example: Amazon's "Frequently Bought Together" section is entirely built on complementary relationships — "You bought a               DSLR camera, here's a memory card + camera bag at a combo price." Average order value jumps significantly.
+
+      b) Substitute Products — "Instead Of" - Products that serve the same need — customer buys one OR the other, never both.
+
+            Examples:
+            Pepsi vs Coca-Cola
+            Store-brand rice vs branded rice
+            Two similar moisturizers by different brands
+            Android phone vs iPhone
+
+            Promotion Strategy:
+            Be very careful promoting one — you'll cannibalize the other (as we saw in the last topic). Promote the higher margin                 substitute.
+
+            Example: A pharmacy promoting its store-brand paracetamol over Calpol — same molecule, higher margin for the store.                   Customers switch, store wins.
+
+      c) Halo Products — "Makes Everything Look Good" - A premium or well-known product that elevates the perception of products               around it.
+
+            Premium Product A (Halo) ✨  →  Lifts perception of Product B, C, D
+
+            Examples:
+            Apple iPhones on display make the whole Apple accessories range feel premium
+            A luxury olive oil at the entrance of a supermarket makes the whole store feel upscale
+            A designer collaboration piece in a clothing store makes regular items feel more aspirational
+
+            Promotion Strategy:
+            Don't always discount the halo product — just feature it prominently. Let it do perception work, not discount work.
+
+            Example: Starbucks prominently displays its Reserve/premium range — most people buy the regular latte, but the presence               of ₹800 Reserve coffee makes ₹350 seem reasonable by comparison. This is the anchoring effect.
+
+      d) KVI — Known Value Items — "The Price People Remember" - Products whose prices customers know by heart. These define your             store's price image.
+
+            Customer knows the "right price" of these products
+            → If your price is high, whole store feels expensive
+            → If your price is right, whole store feels good value
+
+            Examples:
+            Amul butter (everyone knows it's ~₹60)
+            Cadbury Dairy Milk 5-star (₹10/₹20)
+            Petrol prices
+            Onions & tomatoes in a grocery store
+            Coca-Cola 2L bottle
+
+            Promotion Strategy:
+            Always keep KVIs competitively priced — even at low or zero margin. They are your store's price reputation.
+
+            Example: Big Bazaar prices onions and tomatoes aggressively — not because vegetables make profit, but because if your                 onion price is right, customers assume everything else in the store is good value too.
+
+      Advanced Relationships - used by sophisticated retailers
+      e) Gateway Products — "First Step In" - Products that introduce customers to a brand or category, leading to higher-value             purchases later.
+
+            Low-cost entry product → Customer experience → Premium upsell
+
+            Example:
+            Gillette sells razors cheap → makes money on blades forever (the razor-blade model)
+
+      f) Habitual Replenishment Products — "Always Running Out" - 
 6. Consider inventory constraints
 7. Geographically customize promotions
 8. Competitor awareness
