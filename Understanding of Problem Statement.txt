@@ -507,10 +507,363 @@ Feature required in the solution
             Example:
             Gillette sells razors cheap → makes money on blades forever (the razor-blade model)
 
-      f) Habitual Replenishment Products — "Always Running Out" - 
+      f) Habitual Replenishment Products — "Always Running Out" - Products customers buy on a cycle — consumables that run out and             need replacing.
+
+            First purchase → Repeat purchase → Automatic loyalty
+
+            Examples: Coffee pods, printer ink, pet food, baby diapers, protein powder
+
+            Promotion Strategy:
+            Acquire the customer on the first purchase (even at a loss) — future replenishment purchases are highly profitable.
+
+            Example: Amazon Subscribe & Save — 10% discount for auto-replenishment of household consumables. Customer saves a little,             Amazon locks in guaranteed recurring revenue.
+
+      g) Premium — Value Product Ladders — "Trade Up or Down" - Products arranged in a good-better-best structure within a category.
+
+            Value (Entry) → Standard (Mid) → Premium (Top)
+                 ₹199           ₹399            ₹799
+
+            Promotion Strategy: Use the entry product to attract, then trade customers up to higher margin products.
+
+            Example: Hotels — Basic room gets you in the door (promoted price), upgrade to sea-view/suite is where the margin lives.              The entry price is bait, the upgrade is the business.
+
+      How to Use Product Relationships in Promotions?
+      Complementary → Bundle & Cross-Sell
+      Substitute → Promote the Higher Margin One
+      Halo → Feature, Don't Discount
+      KVI → Price Competitively, Always
+
+      The Basket Architecture — Putting It All Together
+      Smart retailers design the basket using all four relationships at once:
+      A complete basket strategy:
+      ────────────────────────────────────────────────────────
+      1. KVI priced right         →  Customer trusts the store
+      2. Halo product visible     →  Store feels premium
+      3. Traffic driver promoted  →  Customer walks in
+      4. Complementary bundled    →  Basket size grows
+      5. Substitute managed       →  High-margin version wins
+
 6. Consider inventory constraints
+      This is where operations meets strategy. The best promotion in the world fails if you run out of stock on day one — or if             you're stuck with mountains of unsold inventory after it ends.
+
+      Why Inventory Constraints Matter in Promotions?
+      A promotion without inventory planning is just a promise you might not keep.
+
+      Two equally bad outcomes:
+      Too little stock  →  Stockout → Angry customers, lost sales, damaged trust
+      Too much stock    →  Dead inventory → Tied up cash, markdowns, waste
+
+      The 4 Core Inventory Scenarios
+      a) Healthy Stock, Slow Movement
+
+            Situation: You have plenty of inventory but it's not selling fast enough.
+            Inventory Goal: Accelerate sell-through before it becomes a problem.
+
+            Promotion Strategy:
+            Moderate discount to stimulate demand
+            Bundle with a faster-moving product
+            Featured placement + promotion combo
+
+            Example: A clothing retailer sitting on 2,000 units of a mid-season jacket — not yet end-of-season, but moving slowly. A              "15% off this week only" with featured shelf placement clears 600 units without destroying margin.
+
+      b) Low Stock, High Demand
+            Situation: Product is flying off shelves. You're at risk of running out.
+            Inventory Goal: Protect remaining stock, avoid stockout frustration.
+
+            Promotion Strategy:
+            Do NOT promote — demand already exists
+            If promoting for brand reasons, cap the offer (first 100 customers, online only)
+            Use this moment to upsell to a higher-margin alternative
+
+            Example: During COVID, sanitizers and masks were in shortage. Retailers who kept discounting them ran out in hours,                   frustrated thousands of customers, and lost trust. Smart ones rationed and held price.
+            
+            Rule: Never promote what you can't fulfill.
+            Stockout during a promotion = worst customer experience possible.
+
+      c) Dead Stock / Overstock
+
+            Situation: Inventory has been sitting too long. Tying up cash, taking up space.
+            Inventory Goal: Liquidate fast — recover cash even at low margin.
+            
+            Promotion Strategy:
+            Deep discount clearance
+            Flash sale with urgency ("while stocks last")
+            Bundle with a new arrival to give it context
+            Last resort: donate, liquidate to a third party, or write off
+            
+            Example: Zara's end-of-season sale — they clear ALL old inventory before new collection arrives. They'd rather sell at                50% off than carry it to next season. Fresh inventory = fresh brand image
+
+      d) Constrained Supply (Vendor/Production Limit)
+
+            Situation: You want to promote but can't get more stock even if demand spikes.
+            Inventory Goal: Match promotion intensity to available supply.
+            
+            Promotion Strategy:
+            Limited quantity offers ("Only 500 units at this price")
+            Pre-order promotions (capture demand before stock arrives)
+            Geo-limited promotions (promote only in regions where stock exists)
+            
+            Example: Apple promotes new iPhone launches with pre-orders — they create massive demand signals before a single unit                 ships, then allocate stock based on pre-order data. Zero waste, maximum hype.
+
+      5 Smart Ways to Align Promotions With Inventory
+            i) Set Stock Thresholds Before Launching - Define minimum and maximum stock levels that trigger or stop a promotion.
+            
+                  Stock > 80% of capacity   →  Promote aggressively
+                  Stock 40–80%              →  Promote moderately
+                  Stock 20–40%              →  Promote cautiously, cap quantity
+                  Stock < 20%               →  Stop promotion immediately
+      
+                  Example: Flipkart's Big Billion Day sets internal "promo-off" triggers — once a SKU drops below a stock threshold,                    the deal automatically deactivates. No manual intervention, no overselling.
+
+            ii) Forecast Demand Before Setting Discount Depth - Before choosing your discount, estimate how much extra demand it                   creates. This prevents the worst outcome: a viral promotion you can't fulfill.
+
+                  Expected Uplift = Base Sales × Demand Multiplier
+                  
+                  Example:
+                  - Normal weekly sales: 200 units
+                  - 30% discount multiplier: 3x
+                  - Expected promo sales: 600 units
+                  - Stock available: 450 units
+                  
+                  → Either limit the promo duration OR cap quantity at 450
+
+            iii) Use Time as an Inventory Lever - Shorten or extend promotion duration based on stock levels.
+                  Lots of stock + slow sales  →  Extend promo duration
+                  Low stock + fast sales      →  Shorten promo, create urgency
+                  Stock almost gone           →  "While stocks last" messaging
+
+                  Example: Amazon's Lightning Deals show a progress bar of stock remaining — as stock depletes, urgency increases                       naturally. The bar IS the inventory signal.
+
+            iv) Geo-Target Based on Regional Stock - Don't promote nationally what you only have regionally.
+            v) Use Promotions to Rebalance Inventory - Inventory imbalance across locations is a hidden cost. Promotions can fix it.
+                  Example: Amazon's regional warehouse strategy — Prime delivery speed is partially a function of smartly promoting                     products already warehoused close to demand clusters.
+
+      The Hidden Cost of Getting It Wrong
+      STOCKOUT COST                    OVERSTOCK COST
+      ──────────────────               ──────────────────
+      Lost sales revenue               Storage & holding cost
+      Customer frustration             Markdown to clear later
+      Competitor gains loyalty         Cash tied up, can't invest
+      Brand trust damaged              Waste (perishables)
+      "Out of stock" = broken promise  Discounting trains customers
+
+      Inventory-First Promotion Checklist
+      Before launching ANY promotion, answer these:
+      ──────────────────────────────────────────────
+      ☐ How many units do we have available?
+      ☐ How long will stock last at expected uplift?
+      ☐ What is our reorder lead time if we need more?
+      ☐ Do we have stock in the right locations?
+      ☐ What's our stop-loss trigger (when to pull the promo)?
+      ☐ What happens to remaining stock if promo underperforms?
+      ☐ Have we communicated stock limits in the promo messaging?
+
 7. Geographically customize promotions
+      Why Geography Matters in Promotions?
+      The same product, in the same store, sold to different people in different cities — needs a completely different promotion.
+
+      Customers differ by location in terms of:
+      
+      Income levels and price sensitivity
+      Cultural preferences and festivals
+      Local competition intensity
+      Climate and seasonal needs
+      Urban vs rural shopping behavior
+      
+      5 Dimensions of Geographic Customization
+      a) Urban vs Semi-Urban vs Rural - These are fundamentally different markets — not just in size, but in behavior.
+            Example: HUL sells the same Lifebuoy soap differently across markets — premium bar soap with loyalty rewards in urban                 Mumbai, a value multipack with price discount in Tier 2 cities, and a ₹5 sachet with free sample trial in rural markets.              Same brand, three completely different promotion strategies.
+
+      b) Local Festivals & Cultural Moments - Different geographies celebrate different festivals — and buying behavior spikes around       each one.
+            Strategy: Build a geo-festival calendar and align promotions to it — not a single national sale calendar.
+
+            Example: Big Bazaar runs "Pujo Special" promotions only in West Bengal stores during Durga Puja — discounts on ethnic                 wear, sweets, home decor. A store in Rajasthan runs completely different promotions for Teej during the same week. Same               company, same week, different worlds.
+
+      c) Climate & Seasonality by Region - 
+            Example: A footwear chain promoting monsoon sandals in Mumbai in June while simultaneously running summer sandal                      clearance in Chandigarh — same month, opposite promotions, both perfectly timed.
+
+      d) Local Competition Intensity - Where competition is fierce, you need sharper promotions. Where you're the only player, you             don't need to discount at all.
+
+            Example: Reliance Retail in areas where D-Mart also operates runs sharper price promotions on KVIs. In smaller towns                  where they're the only organized retailer, they focus on assortment and availability — not deep discounting.
+
+      e) Warehouse & Supply Chain Geography - You can only promote what you can actually deliver. Supply chain geography shapes             promotion geography.
+           Example: Zepto and Blinkit run geo-fenced promotions — a "flat ₹100 off" might appear only to users within 3km of a dark             store that has excess stock of a product. Hyper-local, hyper-relevant.
+
+      The Geo-Promotion Playbook — Step by Step
+      Step 1: SEGMENT your geography
+              ─────────────────────────
+              Tier 1 cities / Tier 2 / Tier 3 / Rural
+              North / South / East / West
+              High competition zones / Low competition zones
+      
+      Step 2: MAP local demand signals
+              ─────────────────────────
+              Which products sell most in each zone?
+              What festivals are coming up?
+              What's the local climate doing?
+      
+      Step 3: MATCH promotion to zone profile
+              ─────────────────────────────────
+              Right discount depth for income level
+              Right channel for media consumption
+              Right products for local culture/season
+      
+      Step 4: CUSTOMIZE the message
+              ──────────────────────
+              Language (Hindi / Tamil / Bengali)
+              Local references and imagery
+              Festival-relevant creative
+      
+      Step 5: MEASURE by zone
+              ────────────────
+              Don't average results nationally
+              A failed promotion in one zone + success in another = missed learning
+              Track uplift, margin, and basket size per geography
+
+      The Geo-Customization Risk — Don't Over-Fragment
+      A warning: too much geographic customization creates its own problems.
+      Risks of over-fragmentation:
+      ──────────────────────────────────────────────────
+      Operational complexity   →  Hard to manage 50 different promotions
+      Brand inconsistency      →  Customers notice price differences, feel cheated
+      Supply confusion         →  Wrong stock sent to wrong region
+      Margin leakage           →  Deep discounts in low-need zones waste money
+
+      The balance:
+      National level   →  Brand promotions, flagship offers, big sale events
+      Regional level   →  Festival, climate, competition customization
+      Local level      →  Hyper-local stock clearance, geo-fenced app offers
+
 8. Competitor awareness
+      Why Competitor Awareness Matters?
+            Your promotion doesn't just influence your customers — it triggers your competitors, who then influence your customers            right back.
+      
+            You discount    →  Competitor notices
+                            →  Competitor matches or beats your price
+                            →  Your advantage evaporates
+                            →  Both of you just gave away margin for nothing
+      
+            This is called a promotional war — and nobody wins except the customer.
+
+      4 Competitor Scenarios You'll Face
+      a) Direct Price Match - Competitor copies your promotion almost immediately.
+            You offer 20% off  →  They offer 20% off
+            You go 25% off     →  They go 25% off
+            You go 30% off     →  Everyone loses margin
+
+            Example: Flipkart launches Big Billion Days → Amazon immediately launches Great Indian Festival the same week. Both                   companies end up spending billions in discounts, funding each other's price war. The winner? The customer.
+
+            Smart Response: Stop competing on price alone. Layer in value they can't easily copy — exclusive products, better                     service, loyalty rewards, faster delivery.
+
+      b) Flanking Attack - Competitor doesn't match your promotion — instead promotes a different product to steal your customers             while you're distracted.
+
+            Example: You heavily promote televisions → competitor ignores TVs and runs an aggressive promotion on home theatre                   systems — the natural complement. Your TV customer walks into your store, then next door to buy the sound system.
+
+            Smart Response: Always promote with the whole basket in mind. If you're promoting TVs, lock in the accessories, warranty,             and installation too. Don't leave flanks open.
+
+      c) Competitor Promotes First - Your competitor launches a promotion before you. You now have to react.
+            React too fast    →  Looks desperate, starts a price war
+            React too slow    →  Lose customers to their offer
+            Don't react       →  Risk losing traffic; but might be the right call
+
+            Decision Framework:
+            Is the competitor promotion on a KVI?        →  Match immediately
+            Is it on a niche / low-traffic product?     →  Ignore it
+            Are your shared customers highly price-sensitive? →  React quickly
+            Is your brand premium / differentiated?     →  Don't react; hold position
+
+            Example: When a budget airline drops prices, premium airlines don't panic-match. They know their customer isn't choosing on price alone. But               budget airline vs budget airline — every price move triggers an instant response.
+
+      d) Competitor Exits a Promotion - A competitor pulls back — ends a discount, discontinues a deal. This is actually an opportunity.
+            Example: When a local competitor ends its "free delivery" promotion, that's the perfect moment to launch yours — you capture their price-                  sensitive customers who were only loyal to the deal, not the brand.
+
+      The Competitor Intelligence Framework
+      To respond smartly, you first need to know what competitors are doing — systematically, not accidentally.
+
+      3 Strategic Responses to Competitor Promotions
+            a) Match (Price Parity) - Copy their promotion to neutralize their advantage.
+                  
+                  When to match:            
+                  On KVIs where customers will switch for even small price differences
+                  When you have the margin to afford it
+                  When the competitor's offer is time-limited and you can outlast them
+
+                  When NOT to match:
+                  When it starts a race to the bottom with no winner
+                  When your brand is positioned as premium — matching cheapens you
+                  When the competitor is loss-leading and you'd bleed matching them
+
+                  Example: Supermarkets constantly match each other on staples like cooking oil, sugar, flour — these are KVIs and customers notice. But a                   premium organic food store doesn't match a budget supermarket's oil price — different brand, different customer.
+
+            b) Flank (Compete Differently) - Don't match their promotion — instead promote something adjacent that steals their thunder.
+                  They promote:   Price discount on Product A
+                  You respond:    Superior value proposition on Product B
+                                  (which customers also need, and you do better)
+
+                  Example: When Uber runs a fare discount, Ola doesn't always match it. Instead they promote their subscription plan — a different value                     proposition that locks in customers for a month, making Uber's one-time discount irrelevant.
+
+            c) Hold (Strategic Ignore) - Sometimes the best response is no response. Stay the course.
+                  
+                  When to hold:                  
+                  Your brand equity is strong enough that customers won't switch for a discount
+                  Competitor's promotion is on a product you don't meaningfully compete on
+                  Responding would cost more margin than the customers you'd lose
+                  Their promotion is clearly unsustainable — wait for it to end
+
+                  Example: Apple never responds to Android price cuts. Their customer isn't cross-shopping on price. Responding would signal insecurity                      and erode brand premium. Silence is the power move.
+
+      Competitor-Aware Promotion Design - Beyond reacting — you can design promotions that are inherently hard to copy.
+            EASY TO COPY                    HARD TO COPY
+            ─────────────────────────────────────────────────────
+            Price discount                  Exclusive product / bundle
+            % off                           Loyalty reward (requires your card)
+            Free shipping                   Faster delivery (infra advantage)
+            BOGO on standard product        BOGO on exclusive private label
+            Generic cashback                Personalized offer (data advantage)
+            One-time deal                   Subscription lock-in
+
+            Example: Amazon Prime's free delivery isn't just a promotion — it's a structural moat. Competitors can match "free delivery" as a one-time                 offer, but they can't replicate the ecosystem that makes Prime worth ₹1,499/year. The promotion IS the product.
+
+      The Promotion Timing Game - Smart retailers time promotions to avoid or exploit competitor activity.
+      AVOID:   Don't launch a big sale the same week as a competitor's
+               flagship sale — you split the customer's attention and wallet
+      
+      EXPLOIT: Launch YOUR sale the week AFTER theirs ends —
+               capture customers with unspent intent and fresh budgets
+      
+      PREEMPT: Launch just BEFORE a competitor's expected sale —
+               lock in customers before they even see the competitor's offer
+
+      Example: Myntra's End of Reason Sale is timed to preempt Amazon's fashion promotions — they capture the fashion-first customer before Amazon's             broader sale begins.
+
+      The Prisoner's Dilemma of Retail Promotions - This is the deepest insight in competitor-aware promotion strategy:
+                          COMPETITOR
+                       Promotes    Holds
+                  ┌───────────┬───────────┐
+      YOU Promote │ Both lose  │ You win   │
+                  │ margin     │ big       │
+                  ├───────────┼───────────┤
+          Hold    │ You lose   │ Both keep │
+                  │ some share │ margin    │
+                  └───────────┴───────────┘
+
+      Compete on dimensions other than price — service, loyalty, range, experience. Price wars destroy industries. Value wars build them.
+
+      Competitor Awareness Checklist
+      Before launching any promotion:
+      ──────────────────────────────────────────────────────
+      ☐ What are competitors currently promoting?
+      ☐ Are they likely to match our promotion?
+      ☐ Can we differentiate rather than just discount?
+      ☐ What's our response playbook if they undercut us?
+      ☐ Are we promoting at a time that avoids their peak?
+      ☐ Is our promotion built on something hard to replicate?
+      ☐ Is this starting a price war we don't want to be in?
+
+      The best promotion strategy is one your competitor can see clearly — and still can't copy.
+      Price is always visible and always copyable.
+      Build promotions around loyalty, exclusivity, experience, and data — things that take years to build and can't be matched overnight.
+
 9. Simulate the promotion before launching
 
 
