@@ -1,0 +1,39 @@
+Only 3 features possible or mandatorily required
+  1. Select Which Products to Promote - Without a product there is literally nothing to plan. This defines the price, the margin, the customer, purpose 
+  2. Determine the Promotion Mechanism - Once the product is decided, deciding how to promote is important. Any unplanned or unclear offer burns money
+  3. Simulate the promotion - With the above 2, a basic P&L can be derived - base price, COGS, discount depth, expected uplift. 
+    
+With out these 3 a promotion can't be planned at all.
+
+If we plan to expand the feature flexibility apart from top 3, we can consider avoiding unwarranted mistakes
+  4. Consider Inventory Constraints - How much ever a promotion is planned, if no stock is available nothing can be done in a promotion
+  5. Understand cannibalization - Even if a promotion is completely successful, we can't call it success unless we are sure that we are not bleeding somewhere
+  6. Optimize discounts & customize strategies - the mechanism is defined in point 2 but there is no clarity on what exactly needs to be done from depth
+    perspective. 
+
+If all features are being considered, then we can go with following order of priority.
+1. Select Which Products to Promote
+2. Consider Inventory Constraints
+3. Understand Product Relationships
+4. Determine the Promotion Mechanism
+5. Optimize Discount & Customize Strategies
+6. Understand Cannibalization
+7. Geographically Customize Promotions
+8. Competitor Awareness
+9. Simulate the Promotion
+
+FULL SEQUENCE LOGIC:
+──────────────────────────────────────────────────────────────
+1. Select product         →  Defines everything downstream
+2. Inventory              →  Sets the hard reality ceiling
+3. Product relationships  →  Shapes what mechanism makes sense
+4. Mechanism              →  Design the actual offer
+5. Optimize/customize     →  Sharpen depth and targeting
+6. Cannibalization        →  Check for hidden self-damage
+7. Geography              →  Adapt to each market's reality
+8. Competitor awareness   →  Test against market dynamics
+9. Simulate               →  Validate the whole plan with real numbers
+──────────────────────────────────────────────────────────────
+Each step feeds the next.
+Simulation is powerful BECAUSE all 8 steps came before it.    
+    
