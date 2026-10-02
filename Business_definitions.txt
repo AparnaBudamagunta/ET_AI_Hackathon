@@ -1,3 +1,116 @@
+Table 1 - Products - The master catalog of everything the retailer sells. Every other table connects back to this one.
+It is the foundation of the entire system.
+
+Every Column
+sku_id
+──────────────────────────────────────────────────────────────
+What:   Unique code for each product
+Why:    Every table uses this to refer to a product
+        Instead of repeating the full product name everywhere, we use a short code
+        Products table is where you decode the code
+Example: SKU_BEV_001 = Coca-Cola 2L India
+
+
+product_name
+──────────────────────────────────────────────────────────────
+What:   Human readable name of the product
+Why:    What appears in the output report
+        "Promote Coca-Cola 2L" not "Promote SKU_BEV_001"
+Example: "Coca-Cola 2L"
+
+
+category
+──────────────────────────────────────────────────────────────
+What:   Which product family this belongs to
+Why:    Scope filter — when user says "build a promotion for beverages" system filters to category = beverages
+        Also used for cannibalization
+        (substitutes are usually in same category)
+Example: beverages, stationery, electronics, apparel, fmcg
+
+
+geography
+──────────────────────────────────────────────────────────────
+What:   Which country/market this product is sold in
+Why:    Same product can exist in multiple markets
+        Coca-Cola is sold in India AND USA
+        But pricing, competitors, segments are different
+        Geography ensures we never mix markets
+Example: India, USA, Germany
+
+
+currency
+──────────────────────────────────────────────────────────────
+What:   The currency for this product's market
+Why:    Global system — cannot compare ₹89 with $2.99
+        Every financial calculation uses the right currency for the right market
+        Output report shows the right symbol
+Example: INR for India, USD for USA, EUR for Germany
+
+
+base_price
+──────────────────────────────────────────────────────────────
+What:   The normal selling price before any promotion
+Why:    This is what we discount FROM
+        Discount optimization step calculates how much below this price can we go while staying above margin constraint
+Example: ₹89 for Coca-Cola 2L India
+
+
+cogs (Cost of Goods Sold)
+──────────────────────────────────────────────────────────────
+What:   What it costs us to buy or make one unit
+Why:    The absolute floor — we can never sell below this price or we lose money on every unit
+        Margin = (base_price - cogs) / base_price
+        Constraint check: promo_price must be > cogs
+Example: ₹45 for Coca-Cola 2L
+         We buy it for ₹45, sell for ₹89
+         Margin = (89-45)/89 = 49.4%
+
+
+brand
+──────────────────────────────────────────────────────────────
+What:   Which company makes this product
+Why:    Used in cannibalization analysis
+        Same brand products more likely to cannibalize each other
+        Coca-Cola and Minute Maid are both
+        Coca-Cola brand → higher switching risk
+        Coca-Cola and Tropicana are different
+        brands → lower switching risk
+Example: Coca-Cola, PepsiCo, HUL, P&G
+
+Why These Columns and Not Others
+
+DELIBERATELY LEFT OUT:
+──────────────────────────────────────────────────────────────
+Product description    → Not needed for promotion decisions
+Product image URL      → UI feature, not AI engine input
+Supplier details       → Supply chain, not promotion planning
+Weight / dimensions    → Logistics, not promotion planning
+Barcode / EAN          → POS system detail, not needed here
+Tax rate               → Can be added in v2 for margin calc
+Shelf location         → Store ops, not promotion planning
+
+RULE:
+Only what the AI engine needs to make a promotion decision lives in this table. Nothing more.
+
+How This Table Is Used
+───────────────────────
+STEP 1 — Product selection:
+  Joined with inventory_status to get margin and price for scoring
+
+STEP 2 — Mechanism design:
+  base_price and cogs used to calculate what discount depth is financially viable
+
+STEP 3 — Discount optimisation:
+  cogs is the floor for all calculations
+  base_price is the starting point
+
+STEP 4 — Cannibalization:
+  brand used to estimate switching risk category used to find substitute products
+
+OUTPUT:
+  product_name shown in all 11 sections currency shown in all financial figure's, geography used to filter regional plan
+
+Table 2 - Inventory
 BUSINESS QUESTION THIS TABLE ANSWERS:
 ──────────────────────────────────────────────────────────────
 "Which products NEED to be promoted because we have too much stock sitting in the warehouse costing us money?"
@@ -209,3 +322,466 @@ Low Stock -  When we have less stock in the inventory than required its lowstock
             THEN 'LOW_STOCK'
             ELSE 'HEALTHY'
         END as stock_status
+
+Table 3 - competitor_prices
+What It Is - A snapshot of what competitors are currently charging for the same or similar products in each geography.
+
+This is the market intelligence layer.
+Without it the system plans promotions in a vacuum — not knowing if our price is already better or worse than the market.
+
+Every Column
+sku_id
+──────────────────────────────────────────────────────────────
+What:   Links competitor price to our product
+Why:    We need to know which of OUR products is being compared to which competitor price
+        A competitor sells Coca-Cola too — we track their price against our SKU_BEV_001
+Example: SKU_BEV_001 (our Coca-Cola 2L)
+
+
+competitor_name
+──────────────────────────────────────────────────────────────
+What:   Which competitor is charging this price
+Why:    Different competitors matter differently
+        DMart is a KVI benchmark in India (customers check DMart prices mentally)
+        Amazon matters for online shoppers
+        BigBazaar matters for mall shoppers
+        Knowing WHO is cheaper tells us which customer segment is at risk
+Example: DMart, BigBazaar, Walmart, Amazon
+
+
+competitor_price
+──────────────────────────────────────────────────────────────
+What:   What the competitor charges for this product
+Why:    The core comparison:
+        Our price vs their price = price gap
+        Positive gap = we are more expensive
+        → Promotion needed to close the gap
+        Negative gap = we are already cheaper
+        → Promotion can be smaller or different
+
+        This directly drives discount depth:
+        If DMart sells Coca-Cola at ₹85 and we sell at ₹89
+        We only need to drop to ₹84 to win
+        Not to ₹70 — that would be wasteful
+
+Example: DMart charges ₹85 for Coca-Cola 2L
+         We charge ₹89
+         Price gap: ₹4 — small, manageable
+
+
+currency
+──────────────────────────────────────────────────────────────
+What:   Currency of the competitor price
+Why:    Same as products table — global system needs currency context
+        Cannot compare ₹85 with $2.99
+Example: INR, USD, EUR
+
+
+geography
+──────────────────────────────────────────────────────────────
+What:   Where this competitor price applies
+Why:    DMart only exists in India
+        Walmart only exists in USA
+        Aldi exists in Germany and USA
+        Geography ensures we never compare
+        Indian competitor prices with USA products
+Example: India, USA, Germany
+
+Why These Columns and Not Others
+DELIBERATELY LEFT OUT:
+──────────────────────────────────────────────────────────────
+Date of price capture  → v2 feature (staleness tracking)
+                          For hackathon we assume fresh data
+Store location         → Too granular for our system
+Online vs offline      → Can add in v2
+Promotional price      → We capture regular shelf price
+                          Competitor promotions tracked separately
+Stock availability     → Competitor ops, not needed
+
+How This Table Is Used
+STEP 1 — Product selection:
+  Price gap calculated for each candidate product
+  Large gap = stronger promotion case
+  (we are much more expensive than competitor)
+
+STEP 2 — Mechanism design:
+  If competitor is running a straight discount → we choose a different mechanism (bundle) to differentiate rather than match
+
+STEP 3 — Discount optimisation:
+  Minimum discount = enough to beat the cheapest competitor
+  Not more than needed
+
+STEP 8 — Competitor response:
+  LLM reasons about whether DMart or Walmart will match our promotion based on their historical behaviour
+
+OUTPUT SECTION 7 — Competitor context:
+  Shows price comparison table
+  Our price vs each competitor
+  Advantage or disadvantage per region
+
+SCENARIO:
+  SKU_BEV_001 Coca-Cola 2L India
+  Our price:    ₹89
+  DMart:        ₹85  ← cheaper than us
+  BigBazaar:    ₹92  ← more expensive than us
+
+Real Business Example
+WHAT THE AI DOES WITH THIS:
+  "We are ₹4 more expensive than DMart
+   which is the price benchmark for
+   mid-income Indian shoppers.
+   We need to at least match DMart (₹85)
+   to be competitive.
+   Discount needed: ₹89 → ₹84 (5.6% off)
+   This keeps us ₹1 below DMart.
+   Margin at ₹84 = (84-45)/84 = 46.4%
+   Well above 20% minimum constraint.
+   Small discount. Big competitive impact."
+
+Table 4 - customer_segments
+What It Is - A description of the different types of customers who shop with this retailer — grouped by their shopping behavior, not their personal identity.
+
+This is NOT individual customer data.
+This is aggregated behavioural profiles.
+Critical distinction for privacy compliance.
+
+Every Column
+segment_name
+──────────────────────────────────────────────────────────────
+What:   The name of the customer group
+Why:    Different groups need different promotions
+        What works for premium customers
+        destroys value if applied to price-sensitive
+Example: premium, mid_income, price_sensitive, loyalty_member, lapsed
+
+
+geography
+──────────────────────────────────────────────────────────────
+What:   Which market this segment exists in
+Why:    Indian mid-income is very different from US mid-income
+        Different basket sizes, price sensitivity, response to promotions
+        Segments are market-specific not global
+Example: India, USA, Germany
+
+
+category
+──────────────────────────────────────────────────────────────
+What:   Which product category this segment applies to
+Why:    A customer can be premium for electronics but price-sensitive for FMCG
+        We set "all" for hackathon simplicity
+        In v2 each segment has category-specific
+        behaviour profiles
+Example: all (for now), beverages, electronics
+
+
+segment_size
+──────────────────────────────────────────────────────────────
+What:   How many customers are in this segment
+Why:    Bigger segment = bigger potential impact of a promotion
+        A 1% uplift in a segment of 31,000 is more valuable than 10% in 1,000
+        Used in simulation to estimate total volume impact
+Example: 31,000 price-sensitive customers in India
+
+
+price_sensitivity
+──────────────────────────────────────────────────────────────
+What:   How much this segment cares about price
+        Scale 0 to 1
+        0 = does not care at all about price
+        1 = price is the only thing that matters
+Why:    Drives discount depth decision
+        High sensitivity → deeper discount needed
+        Low sensitivity → non-price promotion works
+        (gift with purchase, loyalty points)
+Example: premium = 0.2 (barely price sensitive)
+         price_sensitive = 0.9 (extremely price sensitive)
+
+
+avg_basket_value
+──────────────────────────────────────────────────────────────
+What:   How much this segment typically spends per shopping trip
+Why:    Higher basket = higher value customer
+        Worth investing more promotion budget to retain and grow
+        Also used in threshold promotions:
+        "Spend ₹1,000 get 20% off"
+        Set threshold just above avg basket to nudge customers to spend more
+Example: premium India: ₹2,500 per trip
+         price_sensitive India: ₹340 per trip
+
+
+discount_response
+──────────────────────────────────────────────────────────────
+What:   Demand multiplier when a discount is offered
+        How many times more do they buy when there is a promotion
+Why:    This is the elasticity at segment level
+        Feeds directly into simulation:
+        expected_sales = base_sales × discount_response
+        Higher response = promotion more effective
+        Lower response = promotion less worth it
+Example: price_sensitive = 3.2x
+         (they buy 3.2x more during a promotion)
+         premium = 1.2x
+         (they barely change behaviour for discounts)
+
+
+loyalty_score
+──────────────────────────────────────────────────────────────
+What:   How likely this segment is to keep coming back regardless of promotion
+        Scale 0 to 1
+Why:    High loyalty = do not need to discount heavily
+        They will come back anyway
+        Low loyalty = at risk of switching to competitor
+        Need stronger promotion to retain
+Example: loyalty_member = 0.92
+         (92% chance they return next month)
+         lapsed = 0.20
+         (only 20% chance — need reactivation)
+
+
+description
+──────────────────────────────────────────────────────────────
+What:   Plain English summary of the segment
+Why:    Goes into the AI prompt so the LLM understands who it is targeting
+        "High income, brand conscious, low price sensitivity"
+        LLM uses this to choose the right mechanism and message for this segment
+Example: "Budget conscious, high discount response, primary channel: in-store"
+
+How This Table Is Used
+STEP 2 — Mechanism design:
+  Premium segment → LLM chooses gift/loyalty never flat discount
+  Price-sensitive → LLM chooses flat discount deepest that margin allows
+
+STEP 3 — Discount optimisation:
+  Different discount per segment:
+  Price-sensitive gets deepest discount
+  Premium gets no discount (loyalty points)
+  Lapsed gets reactivation discount
+
+STEP 6 — Geographic customisation:
+  Segment profiles differ by geography
+  India price-sensitive ≠ Germany price-sensitive
+
+OUTPUT SECTION 6 — Segment playbook:
+  One row per segment showing: what offer, what channel, what priority
+
+Table 5 — holiday_calendar
+A forward-looking calendar of events that cause demand to spike or drop for specific categories in specific markets.
+
+This is the TIMING intelligence layer.
+The right product promoted at the wrong time is wasted money.
+The right product at the right event multiplies results.
+
+Every Column
+event_name
+──────────────────────────────────────────────────────────────
+What:   Name of the holiday or seasonal event
+Why:    Used in output report to explain timing
+        "We recommend this promotion for Diwali"
+        Also used by LLM to understand cultural context of the promotion
+Example: Diwali, Black Friday, Oktoberfest
+
+
+geography
+──────────────────────────────────────────────────────────────
+What:   Which market this event applies to
+Why:    Diwali only relevant for India
+        Black Friday only relevant for USA and Germany
+        Oktoberfest only relevant for Germany
+        Prevents system from recommending a Diwali promotion for a US retailer
+Example: India, USA, Germany
+
+
+start_date / end_date
+──────────────────────────────────────────────────────────────
+What:   When the event begins and ends
+Why:    Promotion must be LIVE before the event
+        A Diwali promotion launched on Nov 8 (main day) is too late
+        Should launch Nov 1 to capture full pre-festival shopping window
+        System uses these dates to:
+        → Check if event is upcoming
+        → Recommend promotion launch date
+        → Set promotion duration
+Example: Diwali: Nov 06 to Nov 10 2026
+         Black Friday: Nov 27 to Nov 27 2026
+
+
+category_relevance
+──────────────────────────────────────────────────────────────
+What:   Which product category benefits most from this event
+Why:    Not every event lifts every category
+        Diwali lifts ALL categories
+        Oktoberfest lifts BEVERAGES specifically
+        Back to School lifts STATIONERY specifically
+        System uses this to match scope category with relevant events
+Example: "all" → every category benefits
+         "beverages" → only beverages benefit
+         "stationery" → only stationery benefits
+
+
+demand_multiplier
+──────────────────────────────────────────────────────────────
+What:   How many times normal sales volume this event generates
+Why:    The most important number in simulation
+        Normal weekly sales × demand_multiplier = expected sales during promotion window
+
+        This is what makes festival promotions so powerful — you are promoting INTO a demand wave not creating demand from nothing
+
+        Black Friday: 4.2x normal electronics sales
+        → A product selling 100 units/week sells 420 units during Black Friday week without any promotion
+          With promotion: even higher
+
+Example: Black Friday electronics: 4.2x
+         Diwali all categories: 2.8x
+         Oktoberfest beverages: 2.6x
+         Regular weekend: 1.0x (baseline)
+
+
+description
+──────────────────────────────────────────────────────────────
+What:   Plain English explanation of the event
+Why:    Goes into LLM prompt as context
+        LLM understands WHY this event matters and tailors the promotion reasoning accordingly
+Example: "Festival of lights — peak retail 5-day window. Gift giving, home decoration, new purchases are cultural norm."
+
+How This Table Is Used
+STEP 0 — Scope parser:
+  User says "for Diwali" → System looks up holiday_calendar → Finds start_date and end_date automatically (User does not need to specify dates)
+
+STEP 1 — Product selection: demand_multiplier joined to candidate products
+  Higher multiplier = better time to promote
+  Timing score added to product selection score
+
+STEP 3 — Discount optimisation:
+  During high-multiplier events → smaller discount needed (demand already elevated — no need to over-invest in discounting)
+
+STEP 7 — Geographic customisation:
+  Different events in different geographies in the same time window
+  October: Dussehra in India
+           Oktoberfest ending in Germany
+           Halloween in USA
+  Each geography gets event-appropriate plan
+
+OUTPUT SECTION 1 — Recommendation card:
+  "Promote for Diwali Nov 6-10 2026
+   Expected demand uplift: 2.8x normal"
+
+Table 6 — benchmark_elasticity
+The cold start intelligence layer.
+
+When a new retail company uses the system for the first time they have zero historical promotion data.
+
+Without benchmarks the simulation produces meaningless numbers.
+With benchmarks the simulation produces directionally correct estimates that get replaced by real data over time.
+
+This is the Phase 1 data from our
+cold start strategy (Gap 5).
+
+Every Column
+category
+──────────────────────────────────────────────────────────────
+What:   Which product category this benchmark applies to
+Why:    Elasticity varies dramatically by category
+        Electronics buyers barely respond to discounts
+        FMCG buyers are highly price sensitive
+        One benchmark for all categories would be wrong
+Example: beverages, stationery, electronics, apparel, fmcg
+
+
+geography
+──────────────────────────────────────────────────────────────
+What:   Which market this benchmark applies to
+Why:    Indian consumers more price sensitive than German consumers for same category
+        Market-specific benchmarks are more accurate than global averages
+Example: India, USA, Germany, global
+
+
+price_elasticity
+──────────────────────────────────────────────────────────────
+What:   How much demand increases for every 1% decrease in price Elasticity of 2.0 means:
+        10% discount → 20% more units sold
+Why:    The core input to P&L simulation
+        Without this number we cannot estimate how many units a promoted product will sell
+        This drives the entire financial forecast
+
+Example: beverages India = 2.1
+         10% discount → 21% more sales
+         electronics India = 1.4
+         10% discount → only 14% more sales
+         (people buy electronics when they need it not because it is on sale)
+
+
+cannibalization_rate
+──────────────────────────────────────────────────────────────
+What:   What fraction of promoted product's sales gain comes from other products in the same category losing sales
+Why:    Without this we overestimate promotion value
+        If we promote Coca-Cola and gain 100 units but Sprite loses 20 units (both our products)
+        Net gain is only 80 units not 100
+        Cannibalization rate = 0.20 means
+        20% of gained sales come from own products
+Example: stationery = 0.22
+         electronics = 0.28 (highest — people switch between similar tech products easily)
+
+
+seasonal_uplift_base
+──────────────────────────────────────────────────────────────
+What:   Baseline seasonal demand increases for this category even without promotion
+Why:    Separates seasonal demand from promotion-driven demand
+        Stationery always spikes in June regardless of whether we promote
+        This baseline prevents us from claiming credit for seasonal demand that would have happened anyway
+Example: stationery = 2.1
+         (stationery demand doubles in June even with no promotion)
+         electronics = 1.2
+         (barely seasonal — fairly flat year round)
+
+
+discount_response
+──────────────────────────────────────────────────────────────
+What:   How strongly customers in this category respond to discounts
+        high / medium / low
+Why:    Quick signal for mechanism design
+        High → discount promotions work well
+        Medium → bundle or threshold work better
+        Low → non-price promotions only
+Example: beverages = high
+         electronics = medium
+         (people research electronics purchase regardless of discount depth)
+
+
+source_note
+──────────────────────────────────────────────────────────────
+What:   Where this benchmark data comes from
+Why:    Transparency for the retailer
+        They need to know if they should trust or override these numbers
+        Also important for hackathon judges who ask about data sources
+Example: "FMCG India retail benchmarks — directional estimates consistent with Nielsen/Kantar published ranges"
+
+How This Table Is Used
+PHASE 1 (new retailer, no history):
+  All simulation inputs come from here
+  Output shows ESTIMATE confidence badge
+  Retailer told to validate after first promotions
+
+PHASE 2 (after 1-10 promotions):
+  Bayesian blend: 70% benchmark + 30% actual
+  Confidence upgrades to MEDIUM
+
+PHASE 3 (after 25+ promotions):
+  Benchmarks fully replaced by actual data
+  This table becomes backup only
+
+STEP 3 — Discount optimisation:
+  price_elasticity used to calculate how much volume uplift a given discount will generate
+
+STEP 4 — Cannibalization:
+  cannibalization_rate used as starting estimate when no historical data available
+
+STEP 9 — Simulation:
+  seasonal_uplift_base combined with holiday demand_multiplier to get total expected demand during promo window
+
+
+
+products + inventory Together answer: WHAT to promote
+
+competitor + holiday Together answer: WHEN and at WHAT PRICE
+
+segments + benchmark Together answer: WHO gets WHICH offer and HOW MUCH uplift to expect
