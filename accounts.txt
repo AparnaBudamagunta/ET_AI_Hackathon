@@ -1,0 +1,23 @@
+console.groq.com
+Email used - aparnancsnlr@gmail.com
+groq API Key
+Display Name - hackathon
+GROQ_API_KEY - Check one note
+
+--------------------------------------------------------------------------------------------------------
+console.anthropic.com
+Email used - aparnancsnlr@gmail.com
+Anthropic claude API Key -> Not using this we need to buy credits. Simply going with Groq
+Display Name - hackathon-demo
+ANTHROPIC_API_KEY - Check one note
+
+--------------------------------------------------------------------------------------------------------
+Databricks free edition
+Email used - aparnancsnlr@gmail.com
+Account name - Aparna B
+DATABRICKS_HOST - Check one note
+DATABRICKS_TOKEN - Check one note
+
+--------------------------------------------------------------------------------------------------------
+share.streamlit.io
+Logged in using github - which uses baparna1997@gmail.com
