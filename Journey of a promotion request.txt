@@ -1,0 +1,13 @@
+USER TYPES THIS
+      ↓
+STEP 0: Scope Parser - Understands what was asked
+        ↓
+STEP 1: Product Selection - Finds the right products to promote
+        ↓
+STEP 2: Mechanism Design - Decides HOW to promote them
+        ↓
+STEP 3: Discount Optimisation - Decides HOW MUCH discount per segment
+        ↓
+STEP 4: Cannibalization Check - Checks what else might get hurt
+        ↓
+(Steps 5-9 in Hour 3)
