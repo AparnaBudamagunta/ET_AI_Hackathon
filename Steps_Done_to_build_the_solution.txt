@@ -1,0 +1,76 @@
+1. Groq account & API keys created
+2. Databricks account created
+3. Instead of going with Databricks cluster on the Community Edition, going with the serverless compute on free edition full platform
+4. Databricks API keys created. Process used to create Databricks API keys
+    →  Top right → your avatar (A)
+    →  Settings
+    →  Developer
+    →  Access Tokens → Manage
+    →  Generate New Token
+    →  Name: hackathon
+    →  Lifetime: 90 days
+    →  Generate → COPY immediately
+    
+    SAVE AS:
+    DATABRICKS_HOST=https://[your-workspace-url]
+    DATABRICKS_TOKEN=dapi_xxxxxxxxxxxx
+    
+    Your workspace URL is visible in the browser
+    address bar when you are in Databricks.
+    It looks like:
+    https://adb-xxxxxxxxxxxxx.xx.azuredatabricks.net
+    OR
+    https://dbc-xxxxxxxx-xxxx.cloud.databricks.com
+5. New GitHub repo retail-promotion-planner is done
+6. Using GitHub repo link added the folder in Databricks workspace. This is done as follows
+    IN DATABRICKS:
+    →  Left sidebar → Workspace
+    →  Click your username folder
+    →  Top right of workspace area → kebab menu (...)
+       OR look for "Add" or "Create" button
+    →  Select: Git folder
+       (sometimes called "Repo")
+    
+    FILL IN:
+    →  Git repository URL:
+       https://github.com/YOURUSERNAME/retail-promotion-planner
+    →  Git provider: GitHub
+    →  Branch: main
+    →  Create Git Folder
+    
+    Done when you see your repo folder
+    appear in the Databricks workspace
+    with README.md visible inside it
+7. Streamlit account created using github authentication
+8. Created 01_data_setup notebook of type IPNB format in github workspace synced earlier into databricks. Steps followed
+    IN DATABRICKS:
+    ──────────────────────────────────────────────────────────────
+    →  Left sidebar → Workspace
+    →  Open your Git folder
+       (retail-promotion-planner)
+    →  Right click inside the folder
+       OR click + New
+    →  Select: Notebook
+    →  Name: 01_data_setup
+    →  Language: Python
+    →  Click Create
+9. In the file created
+    Cell 1 - Installed all required python packages
+              %pip install litellm pydantic instructor python-dotenv
+    Cell 2 - As it asked for a restart of kernel done that
+              dbutils.library.restartPython()
+    Cell 3 - Verify libraries installed correctly
+    Cell 4 — Check available Groq models
+    Cell 5 — Configure Groq API key
+    Cell 6 — Test Groq LLM connection
+    Cell 7 — Create sample retail data
+    Cell 8 — Create inventory table
+            Once created there we no overstocked items that were flowing through.
+    Cell 9 — Verify inventory calculation
+            Checked if the calc used is correct or not. Still data not flowing.
+    Cell 10 — Debug inventory values
+              So, had to test the data if the samples considered are correct or need some corrections. Data was coming and observed that picked values
+              need correction i.e., the coverage of stock we have as per the sales happening is more than the target we want to cover, then it is overstocked.
+              Hence, we corrected values such that we cater different ranges of stock coverage
+    Cell 11 — Recreate inventory with correct daily sales figures
+    Cell 12 — Create competitor prices table
