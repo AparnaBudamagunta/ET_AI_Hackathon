@@ -74,3 +74,14 @@
               Hence, we corrected values such that we cater different ranges of stock coverage
     Cell 11 — Recreate inventory with correct daily sales figures
     Cell 12 — Create competitor prices table
+    Cell 13 — Create customer segments table
+    Cell 14 — Holiday calendar 2026-2027 (verified dates)
+    Cell 15 — Benchmark elasticity table (cold start data)
+    Cell 16 — Verify all Delta Lake tables created
+    Cell 17 — Save notebook checkpoint
+10. As we directly used Groq API key hardcoded, we couldn't commit. So had to store it in my-scope variable in databricks secrects
+11. Then committed the file to Git by saving git credentials in databricks
+
+
+
+
