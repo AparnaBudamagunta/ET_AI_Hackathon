@@ -1,0 +1,211 @@
+BUSINESS QUESTION THIS TABLE ANSWERS:
+──────────────────────────────────────────────────────────────
+"Which products NEED to be promoted because we have too much stock sitting in the warehouse costing us money?"
+
+Ans - Inventory is the first filter in our 9-step promotion planning process. Before the AI reasons about anything — we need to know what stock reality looks like.
+
+Every Column
+sku_id
+──────────
+WHAT IT IS:   Unique identifier for each product
+BUSINESS USE: Links inventory to the product catalog
+              (joins to products table to get name, price, category, geography)
+EXAMPLE:      SKU_BEV_001 = Coca-Cola 2L India
+
+current_stock
+──────────
+WHAT IT IS:   How many units are physically sitting in the warehouse right now
+BUSINESS USE: Tells us the scale of the inventory problem or opportunity
+EXAMPLE:      1840 units of Coca-Cola 2L
+
+WHY IT MATTERS:
+  Too high → money tied up in warehouse storage costs accumulating risk of expiry or obsolescence
+             → PROMOTE to clear it
+
+  Too low  → risk of stocking out during promo
+             → DO NOT promote aggressively
+             → promo would fail on day 1
+
+target_days_cover
+────────────────────
+WHAT IT IS:   How many days of stock the business WANTS to hold at any given time
+BUSINESS USE: The benchmark for what is healthy
+EXAMPLE:      30 days — we want 30 day's worth of stock at all times
+
+WHY 30 DAYS?
+  Industry standard for most retail categories
+  Enough buffer for supply chain delays
+  Not so much that cash is tied up unnecessarily
+  Retailer configures this in constraints.yaml
+  Different categories can have different targets:
+    Fresh produce:   7 days
+    FMCG:           30 days
+    Electronics:    45 days
+    Apparel:        60 days
+
+avg_daily_sales
+────────────────────
+WHAT IT IS:   How many units this product sells on an average day with no promotion
+BUSINESS USE: The denominator in the most important calculation in inventory planning
+
+EXAMPLE:      Coca-Cola 2L sells 20 units/day normally
+
+WHY IT MATTERS:
+  This is how we calculate days_cover:
+  current_stock / avg_daily_sales = days_cover
+  1840 / 20 = 92 days of stock
+
+  Without this number:
+  → We cannot tell if 1840 units is too much or too little
+  → 1840 units for a product selling 200/day is only 9 days — dangerously low
+  → 1840 units for a product selling 20/day is 92 days — dangerously high
+
+  This is the context that makes stock meaningful.
+
+days_cover (calculated)
+────────────────────
+WHAT IT IS:   current_stock / avg_daily_sales
+BUSINESS USE: The single most important inventory metric
+              "How many days will current stock last at normal sales rate?"
+
+EXAMPLE:      1840 / 20 = 92 days cover
+
+INTERPRETATION:
+  < 15 days:  LOW STOCK    → do not promote risk of stocking out
+  15-45 days: HEALTHY      → promote cautiously or don't promote
+  > 45 days:  OVERSTOCKED → promote aggressively need to clear stock
+
+stock_status (calculated)
+────────────────────
+WHAT IT IS:   OVERSTOCKED / HEALTHY / LOW_STOCK
+BUSINESS USE: Simple flag for the AI engine
+
+OVERSTOCKED:  days_cover > target × 1.5 (more than 45 days when target is 30)
+              → Strong candidate for promotion
+
+HEALTHY:      days_cover between 15 and 45 days
+              → Promote only if other reasons exist (traffic driver, seasonal opportunity)
+
+LOW_STOCK:    days_cover < 15 days
+              → Hard block on promotion
+              → Guardrail will reject this product
+
+How This Table Is Used in Our AI Engine
+────────────────────────────────────────
+STEP 1 — Product Selection:
+──────────────────────────────────────────────────────────────
+AI looks at inventory_status table
+Filters to OVERSTOCKED products first
+These are the primary candidates
+
+Joins with products table to get: price, margin, category, geography
+
+Scores each product:
+  High days_cover  → higher promotion score
+  High margin      → higher promotion score
+  Right category   → higher promotion score
+  Right geography  → higher promotion score
+
+STEP 6 — Geographic customisation:
+──────────────────────────────────────────────────────────────
+Checks regional stock before recommending a promotion in a specific region
+
+"Do we have enough stock in Indian warehouses to run this promotion in Mumbai and Delhi?"
+
+If stock < expected promo volume → exclude region
+
+STEP 9 — Simulation:
+──────────────────────────────────────────────────────────────
+PySpark uses current_stock as the ceiling for maximum units that can be sold
+
+Simulation cannot recommend selling more units than physically exist in stock
+
+GUARDRAIL:
+──────────────────────────────────────────────────────────────
+If a product has LOW_STOCK status → hard block → AI cannot recommend it regardless of how good the margin is
+
+Open Question - What if the stock is on the way to the inventory, can we give this option from the chat? Are we going to have scenario based changes?
+
+Real Business Example
+────────────────────
+SCENARIO:
+──────────────────────────────────────────────────────────────
+SKU_STA_001 — Classmate Notebook India
+  current_stock:     3,200 units
+  avg_daily_sales:   40 units/day
+  days_cover:        80 days
+  target:            30 days
+  status:            OVERSTOCKED
+
+BUSINESS REALITY:
+  We have 80 days of stock
+  We only want 30 days
+  We have 50 days of EXCESS stock
+  = 50 × 40 = 2,000 excess units
+  
+  At ₹45 price → ₹90,000 tied up in excess stock
+  Storage cost accumulating daily
+  Back to school season ending soon
+  → Stock will become even harder to move
+
+AI DECISION:
+  High promotion score - Recommend aggressive clearance promotion
+  Before back-to-school season ends - Bundle with Reynolds Pen Pack (complement)
+  Target price-sensitive segment
+  Run in India only (that is where the stock is)
+
+Why These Columns and Not Others
+────────────────────────────────────────
+WHAT WE DELIBERATELY LEFT OUT:
+──────────────────────────────────────────────────────────────
+Warehouse location    → v2 feature (regional warehouses)
+                        For hackathon — assume one warehouse per geography
+
+Expiry date           → relevant for perishables
+                        our sample data is non-perishable
+                        add in v2 for grocery retailers
+
+Last reorder date     → supply chain feature
+                        beyond hackathon scope
+
+Shrinkage / damage    → operations feature
+                        not needed for promotion planning
+
+Seasonal adjustment   → handled by holiday calendar
+                        not needed in inventory table
+                        AI uses holidays config instead
+
+RULE WE FOLLOWED:
+  Only columns the AI engine actually uses in its 9-step reasoning process
+  Nothing extra that adds complexity without adding decision-making value
+
+Summary
+────────────────────
+INVENTORY TABLE PURPOSE:
+──────────────────────────────────────────────────────────────
+Answers: "What needs to be promoted and what cannot be promoted?"
+
+Four columns tell the complete story:
+  current_stock      → scale of the situation
+  avg_daily_sales    → context for that scale
+  target_days_cover  → what healthy looks like
+  days_cover         → how far from healthy we are
+
+One derived column acts as the AI filter:
+  stock_status       → OVERSTOCKED / HEALTHY / LOW_STOCK
+
+This is the first gate every product must pass before the AI even considers it for promotion.
+
+Overstocked - When we have more stock in the inventory than required its overstock.
+Low Stock -  When we have less stock in the inventory than required its lowstock.
+    What is required - This is something we provide from target_days_cover in inventory table
+    We need to have amount of stock when compared with avg daily sales happening less than or equal to target_days_cover
+        CASE
+            WHEN CAST(current_stock / avg_daily_sales AS INTEGER)
+                 > target_days_cover * 1.5
+            THEN 'OVERSTOCKED'
+            WHEN CAST(current_stock / avg_daily_sales AS INTEGER)
+                 < target_days_cover * 0.5
+            THEN 'LOW_STOCK'
+            ELSE 'HEALTHY'
+        END as stock_status
