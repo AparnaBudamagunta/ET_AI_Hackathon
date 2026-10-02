@@ -1,0 +1,341 @@
+Step 0 — Scope Parser
+The Problem It Solves
+
+WITHOUT SCOPE PARSER:
+──────────────────────────────────────────────────────────────
+User types free text
+System has no idea what category, geography, timing, or segment they mean
+Cannot query Delta Lake without structured filters
+
+WITH SCOPE PARSER:
+──────────────────────────────────────────────────────────────
+Free text → structured object
+System knows exactly what to look for
+Can query Delta Lake with precision
+
+What It Does Step by Step
+INPUT: "Build a promotion for beverages in India for Diwali"
+
+INSIDE THE SCOPE PARSER:
+──────────────────────────────────────────────────────────────
+1. Take the user's text as-is
+
+2. Send to Groq LLM with this instruction:
+   "Extract category, geography, event, time window from this text.
+    Return as JSON only."
+
+3. LLM returns:
+   {
+     "category": "beverages",
+     "geography": "India",
+     "event": "Diwali",
+     "needs_clarification": false
+   }
+
+4. Pydantic checks:
+   Is category a valid value?     ✅
+   Is geography a valid value?    ✅
+   Is the JSON structure correct? ✅
+
+5. Look up Diwali in holiday_calendar table:
+   start_date: 2026-11-06
+   end_date:   2026-11-10
+   multiplier: 2.8x
+
+6. Final scope object:
+   {
+     "category":    "beverages",
+     "geography":   "India",
+     "event":       "Diwali",
+     "start_date":  "2026-11-06",
+     "end_date":    "2026-11-10",
+     "multiplier":  2.8,
+     "currency":    "INR"
+   }
+
+OUTPUT:
+  Clean structured scope object
+  Ready for Step 1 to use
+
+What If Input Is Ambiguous
+USER TYPES: "Build me a promotion"
+
+SCOPE PARSER DETECTS: needs_clarification = true
+
+SYSTEM RESPONDS:
+"To build the best promotion plan, could you tell me:
+ 1. Which category? (beverages / stationery / electronics / apparel / fmcg / all)
+ 2. Which geography? (India / USA / Germany / all)
+ 3. Any specific timing or event in mind?"
+
+THIS IS D3 DEPTH:
+The system handles uncertainty gracefully instead of crashing or guessing wrong
+
+Step 1 — Product Selection
+The Problem It Solves
+
+WITHOUT PRODUCT SELECTION:
+──────────────────────────────────────────────────────────────
+We have 50 SKUs
+Which ones do we promote?
+Random choice = wasted budget
+Wrong choice = promotes something already selling well or something we have no stock of
+
+WITH PRODUCT SELECTION:
+──────────────────────────────────────────────────────────────
+AI reads inventory, margins, competitor prices, holiday timing — and picks the products that will benefit most from promotion with the clearest business justification
+
+What It Does Step by Step
+INPUT: Scope object {category: beverages, geography: India, event: Diwali, multiplier: 2.8}
+
+INSIDE PRODUCT SELECTION:
+──────────────────────────────────────────────────────────────
+1. PySpark queries Delta Lake:
+   SELECT p.*, i.days_cover, i.stock_status,
+          i.current_stock, i.avg_daily_sales
+   FROM products p
+   JOIN inventory_status i ON p.sku_id = i.sku_id
+   WHERE p.category = 'beverages'
+   AND   p.geography = 'India'
+   AND   i.stock_status = 'OVERSTOCKED'
+
+   RESULT:
+   SKU_BEV_001 Coca-Cola 2L    92 days  OVERSTOCKED
+   SKU_BEV_002 Sprite 1L       61 days  OVERSTOCKED
+   SKU_BEV_005 Minute Maid 1L  42 days  OVERSTOCKED
+
+2. PySpark calculates margin for each:
+   Coca-Cola:   (89-45)/89  = 49.4%
+   Sprite:      (55-28)/55  = 49.1%
+   Minute Maid: (99-54)/99  = 45.5%
+
+3. PySpark gets competitor price gap:
+   Coca-Cola vs DMart:  89-85 = +₹4 (we are higher)
+   Sprite vs DMart:     55-52 = +₹3 (we are higher)
+
+4. All this structured data goes into LLM prompt:
+   "Here are overstocked beverages in India.
+    Diwali is in 35 days with 2.8x demand uplift.
+    Score and rank these for promotion.
+    Consider: inventory urgency, margin,
+    competitor gap, festival relevance."
+
+5. LLM scores and reasons:
+   Coca-Cola 2L:    Score 88/100
+   Sprite 1L:       Score 82/100
+   Minute Maid 1L:  Score 71/100
+
+6. Pydantic validates output structure
+
+7. Results stored in Delta Lake
+
+OUTPUT:
+  Top 3 ranked products with scores and reasoning
+  Each product has a clear business justification
+
+Why PySpark Does the Querying Not the LLM
+WRONG APPROACH:
+  Ask LLM: "Which beverages in India are overstocked?"
+  LLM does not know — it cannot query databases
+  It would guess or hallucinate
+
+RIGHT APPROACH:
+  PySpark queries Delta Lake → gets exact answer
+  LLM receives the answer → reasons about it
+
+PySpark knows the data.
+LLM knows how to reason about data.
+Never confuse their roles.
+
+Step 2 — Mechanism Design
+The Problem It Solves
+WITHOUT MECHANISM DESIGN:
+──────────────────────────────────────────────────────────────
+We always do a flat discount. Sometimes this works
+Often, it destroys margin unnecessarily or it is the wrong tool for the segment
+
+WITH MECHANISM DESIGN:
+──────────────────────────────────────────────────────────────
+AI picks the RIGHT promotion tool for the RIGHT product and segment based on all available context
+
+What It Does Step by Step
+INPUT:
+  Selected product: Coca-Cola 2L
+  Margin: 49.4%
+  Primary goal: inventory clearance (92 days cover)
+  Segments: premium, mid_income, price_sensitive
+  Competitor: DMart at ₹85 (we at ₹89)
+  Complementary products available: Sprite 1L (also overstocked)
+  Event: Diwali (home entertaining context)
+
+INSIDE MECHANISM DESIGN:
+──────────────────────────────────────────────────────────────
+LLM reasons:
+
+"Goal is inventory clearance.
+ Two products are overstocked: Coca-Cola + Sprite.
+ Diwali context = home entertaining = people buy multiple beverages together.
+ Bundle opportunity: clear two SKUs at once.
+ Competitor DMart at ₹85 for Coca-Cola alone.
+ Our bundle at ₹129 (₹89+₹55-₹15 saving) - gives better perceived value than DMart's single bottle at ₹85.
+ Premium segment → no discount, loyalty points.
+ Mid-income → bundle offer.
+ Price-sensitive → bundle + extra ₹10 off."
+
+OUTPUT:
+  mechanism: BUNDLE
+  primary: SKU_BEV_001 (Coca-Cola 2L)
+  secondary: SKU_BEV_002 (Sprite 1L)
+  bundle_saving: ₹15
+  exception: premium segment gets loyalty points instead of bundle
+  reasoning: full explanation
+
+Step 3 — Discount Optimisation
+The Problem It Solves
+WITHOUT DISCOUNT OPTIMISATION:
+──────────────────────────────────────────────────────────────
+We give the same discount to everyone
+We either:
+  Over-discount loyal customers who would have bought anyway (waste margin)
+  OR
+  Under-discount price-sensitive customers who needed a bigger nudge (miss the sale)
+
+WITH DISCOUNT OPTIMISATION:
+──────────────────────────────────────────────────────────────
+Minimum effective discount per segment, no rupee of discount wasted, every segment gets exactly what it needs to trigger the purchase — nothing more
+
+What It Does Step by Step
+INPUT:
+  Bundle price before discount:
+  Coca-Cola ₹89 + Sprite ₹55 = ₹144
+  Combined COGS: ₹45 + ₹28 = ₹73
+  Min margin constraint: 20%
+  Segments with price_sensitivity scores
+
+PYSPARK CALCULATES THE FLOOR:
+  At 20% margin: price = 73/0.80 = ₹91.25
+  Round up: minimum bundle price = ₹92
+  Maximum possible discount = ₹144 - ₹92 = ₹52
+
+LLM DECIDES PER SEGMENT:
+  Premium (sensitivity 0.2):
+    Does not respond to discounts
+    → Loyalty points (2x points on bundle)
+    → No price change
+
+  Mid-income (sensitivity 0.6):
+    Responds moderately
+    → ₹129 bundle (10% off)
+    → Margin: (129-73)/129 = 43.4% ✅
+
+  Price-sensitive (sensitivity 0.9):
+    Needs a real deal to switch
+    → ₹109 bundle (24% off)
+    → Margin: (109-73)/109 = 33% ✅
+
+  Lapsed (sensitivity 0.7):
+    Needs reactivation
+    → ₹99 bundle (31% off)
+    → Margin: (99-73)/99 = 26.3% ✅
+
+ALL ABOVE 20% CONSTRAINT ✅
+
+OUTPUT:
+  Discount per segment
+  Resulting margin per segment
+  Constraint status per segment
+
+Step 4 — Cannibalization
+The Problem It Solves
+WITHOUT CANNIBALIZATION CHECK:
+──────────────────────────────────────────────────────────────
+We celebrate Coca-Cola bundle selling 400 units
+We do not notice Minute Maid lost 80 units
+Net gain is only 320 units — not 400
+We overestimate promotion value
+We may have promoted at a net loss
+
+WITH CANNIBALIZATION CHECK:
+──────────────────────────────────────────────────────────────
+We see the full picture
+Total category impact not just one product
+We know if the promotion is truly worth it
+
+What It Does Step by Step
+INPUT:
+  Promoted: Coca-Cola + Sprite bundle
+  All other beverages in India:
+    SKU_BEV_003 Tropicana Orange 1L
+    SKU_BEV_004 Red Bull 250ml
+    SKU_BEV_005 Minute Maid 1L
+
+PYSPARK GETS BENCHMARK CANNIBALIZATION RATE:
+  beverages India = 0.18
+  (18% of gained sales come from own products)
+
+LLM REASONS ABOUT EACH PRODUCT:
+  Tropicana:
+    Different brand (PepsiCo vs Coca-Cola)
+    Different type (juice vs cola)
+    Low switching risk → 5% cannibalization
+    "Customers who want juice still want juice"
+
+  Red Bull:
+    Different type entirely (energy vs cola)
+    Very low switching risk → 2% cannibalization
+    "Different consumption occasion"
+
+  Minute Maid:
+    Same brand (Coca-Cola company)
+    Same type (soft drink)
+    Higher switching risk → 22% cannibalization
+    "Most likely substitute for Coca-Cola"
+
+PYSPARK CALCULATES NET IMPACT:
+  Expected bundle sales: 350 units
+  Minute Maid loss: 350 × 0.22 = 77 units
+  Margin lost: 77 × (99-54) = ₹3,465
+
+  Bundle gain: 350 × (129-73) = ₹19,600
+  Net after cannibalization: 19,600 - 3,465 = ₹16,135 ✅
+
+OUTPUT:
+  At-risk products with cannibalization estimate
+  Net incremental value after losses
+  Risk level: LOW / MEDIUM / HIGH
+  Recommendation: PROCEED
+
+How All 4 Steps Connect
+SCOPE PARSER OUTPUT
+  {category: beverages, geography: India,
+   event: Diwali, dates: Nov 6-10, mult: 2.8}
+        ↓
+        feeds into
+        ↓
+PRODUCT SELECTION
+  Uses scope to query Delta Lake
+  Returns: Coca-Cola 2L (score 88)
+           Sprite 1L (score 82)
+        ↓
+        feeds into
+        ↓
+MECHANISM DESIGN
+  Uses selected products + segments + competitors
+  Returns: BUNDLE Coca-Cola + Sprite
+           Exception: loyalty points for premium
+        ↓
+        feeds into
+        ↓
+DISCOUNT OPTIMISATION
+  Uses mechanism + margin constraint + segments
+  Returns: ₹129 mid-income / ₹109 price-sensitive
+           ₹99 lapsed / loyalty points premium
+        ↓
+        feeds into
+        ↓
+CANNIBALIZATION CHECK
+  Uses bundle details + all other beverages
+  Returns: Net ₹16,135 incremental value ✅
+           Proceed with promotion
+        ↓
+        feeds into Steps 5-9 (Hour 3)
